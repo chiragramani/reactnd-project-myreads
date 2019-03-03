@@ -1,14 +1,25 @@
 import React from "react";
 import { Route } from "react-router-dom";
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from "./BooksAPI";
 import SearchBar from "./SearchBar";
 import ListBooks from "./ListBooks";
 import OpenSearch from "./OpenSearch";
 import "./App.css";
 
 class BooksApp extends React.Component {
-  state = {};
+  state = {
+    books: []
+  };
 
+  componentDidMount() {
+    BooksAPI.getAll()
+      .then(books =>
+        this.setState({
+          books
+        })
+      )
+      .catch(error => console.log(error));
+  }
   render() {
     return (
       <div className="app">
@@ -17,7 +28,7 @@ class BooksApp extends React.Component {
           path="/"
           render={({ history }) => (
             <div>
-              <ListBooks />
+              <ListBooks books={this.state.books}/>
               <OpenSearch
                 didTapOnSearch={e => {
                   e.preventDefault();

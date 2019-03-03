@@ -3,6 +3,13 @@ import BookShelf from "./BookShelf";
 
 class ListBooks extends Component {
   render() {
+    const { books } = this.props;
+    const currentlyReadingBooks = books.filter(
+      book => book.shelf === "currentlyReading"
+    );
+    const wantToReadBooks = books.filter(book => book.shelf === "wantToRead");
+    const readBooks = books.filter(book => book.shelf === "read");
+
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -11,10 +18,11 @@ class ListBooks extends Component {
         <div className="list-books-content">
           <div>
             <BookShelf
-              details={{
-                status: "Abc"
-              }}
+              title="Currently Reading"
+              books={currentlyReadingBooks}
             />
+            <BookShelf title="Want to read" books={wantToReadBooks} />
+            <BookShelf title="Read" books={readBooks} />
           </div>
         </div>
       </div>
