@@ -32,6 +32,7 @@ class BooksApp extends React.Component {
   };
 
   render() {
+    const { books } = this.state;
     return (
       <div className="app">
         <Route
@@ -39,10 +40,7 @@ class BooksApp extends React.Component {
           path="/"
           render={({ history }) => (
             <div>
-              <ListBooks
-                books={this.state.books}
-                didChangeShelf={this.didChangeShelf}
-              />
+              <ListBooks books={books} didChangeShelf={this.didChangeShelf} />
               <OpenSearch
                 didTapOnSearch={e => {
                   e.preventDefault();
@@ -57,6 +55,8 @@ class BooksApp extends React.Component {
           path="/search"
           render={({ history }) => (
             <SearchBar
+              currentBooks={books}
+              didChangeShelf={this.didChangeShelf}
               didTapOnBack={e => {
                 e.preventDefault();
                 history.push("/");

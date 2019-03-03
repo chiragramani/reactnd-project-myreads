@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { DebounceInput } from "react-debounce-input";
+import Book from "./Book";
 import * as BooksAPI from "./BooksAPI";
 
 class SearchBar extends Component {
@@ -7,14 +9,41 @@ class SearchBar extends Component {
     books: []
   };
 
+  updateShelves = books => {
+    const { currentBooks } = this.props;
+    for (let searchResult of books) {
+      for (const currentBook of currentBooks) {
+        if (searchResult.id === currentBook.id) {
+          searchResult.shelf = currentBook.shelf;
+        }
+      }
+    }
+    return Promise.resolve(books);
+  };
+
   didChangeText = e => {
+    const enteredSearchText = e.target.value;
     this.setState({
-      query: e.target.value
+      query: enteredSearchText
     });
+    BooksAPI.search(enteredSearchText)
+      .then(books => {
+        const results = books.length > 0 ? books : [];
+        return results;
+      })
+      .then(this.updateShelves)
+      .then(books =>
+        this.setState({
+          books: books
+        })
+      )
+      .catch(error => console.log(error));
   };
 
   render() {
+    const { books } = this.state;
     const { value } = this.state.query;
+    const { didChangeShelf } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -22,24 +51,24 @@ class SearchBar extends Component {
             Close
           </button>
           <div className="search-books-input-wrapper">
-            {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-            <input
-              type="text"
+            <DebounceInput
               placeholder="Search by title or author"
+              minLength={1}
               value={value}
+              debounceTimeout={300}
               onChange={this.didChangeText}
             />
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid" />
+          <ol className="books-grid">
+            {this.state.query &&
+              books.map(book => (
+                <li key={book.id}>
+                  <Book book={book} didChangeShelf={didChangeShelf} />
+                </li>
+              ))}
+          </ol>
         </div>
       </div>
     );

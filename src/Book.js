@@ -4,7 +4,9 @@ class Book extends Component {
   render() {
     const book = this.props.book;
     const { title, authors, imageLinks, shelf } = book;
-    const thumbnail = imageLinks.thumbnail;
+    const thumbnail = imageLinks ? imageLinks.thumbnail || '' : '';
+    const authorsString = (authors || ['']).join(', ')
+    const currentShelf = shelf || 'none';
     return (
       <div className="book">
         <div className="book-top">
@@ -18,7 +20,7 @@ class Book extends Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select value={shelf} onChange={(e) => {
+            <select value={currentShelf} onChange={(e) => {
               e.preventDefault();
               this.props.didChangeShelf(book, e.target.value);
             }}>
@@ -33,7 +35,7 @@ class Book extends Component {
           </div>
         </div>
         <div className="book-title">{title}</div>
-        <div className="book-authors">{authors.join(', ')}</div>
+        <div className="book-authors">{authorsString}</div>
       </div>
     );
   }
