@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import BookShelf from "./BookShelf";
 
-class ListBooks extends Component {
+class ListBooks extends PureComponent {
   static propTypes = {
     books: PropTypes.array.isRequired,
     didChangeShelf: PropTypes.func.isRequired

@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { DebounceInput } from "react-debounce-input";
 import PropTypes from "prop-types";
 import Book from "./Book";
 import * as BooksAPI from "./BooksAPI";
 
-class SearchBar extends Component {
+class SearchBar extends PureComponent {
   state = {
     query: "",
     books: []
