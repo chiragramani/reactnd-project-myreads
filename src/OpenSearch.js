@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function OpenSearch(props) {
   return (
@@ -8,6 +9,10 @@ function OpenSearch(props) {
       </button>
     </div>
   );
+}
+
+OpenSearch.propTypes = {
+  didTapOnSearch: PropTypes.func.isRequired
 }
 
 export default OpenSearch;

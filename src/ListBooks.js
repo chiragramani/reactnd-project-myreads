@@ -1,7 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import BookShelf from "./BookShelf";
 
 class ListBooks extends Component {
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    didChangeShelf: PropTypes.func.isRequired
+  };
+
   render() {
     const { books } = this.props;
     const currentlyReadingBooks = books.filter(

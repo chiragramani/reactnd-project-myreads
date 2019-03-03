@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DebounceInput } from "react-debounce-input";
+import PropTypes from "prop-types";
 import Book from "./Book";
 import * as BooksAPI from "./BooksAPI";
 
@@ -7,6 +8,12 @@ class SearchBar extends Component {
   state = {
     query: "",
     books: []
+  };
+
+  static propTypes = {
+    currentBooks: PropTypes.array.isRequired,
+    didChangeShelf: PropTypes.func.isRequired,
+    didTapOnBack: PropTypes.func.isRequired
   };
 
   updateShelves = books => {

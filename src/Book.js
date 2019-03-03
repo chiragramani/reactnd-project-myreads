@@ -1,12 +1,18 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class Book extends Component {
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    didChangeShelf: PropTypes.func.isRequired
+  };
+
   render() {
     const book = this.props.book;
     const { title, authors, imageLinks, shelf } = book;
-    const thumbnail = imageLinks ? imageLinks.thumbnail || '' : '';
-    const authorsString = (authors || ['']).join(', ')
-    const currentShelf = shelf || 'none';
+    const thumbnail = imageLinks ? imageLinks.thumbnail || "" : "";
+    const authorsString = (authors || [""]).join(", ");
+    const currentShelf = shelf || "none";
     return (
       <div className="book">
         <div className="book-top">
@@ -15,15 +21,17 @@ class Book extends Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage:
-                `url(${thumbnail})`
+              backgroundImage: `url(${thumbnail})`
             }}
           />
           <div className="book-shelf-changer">
-            <select value={currentShelf} onChange={(e) => {
-              e.preventDefault();
-              this.props.didChangeShelf(book, e.target.value);
-            }}>
+            <select
+              value={currentShelf}
+              onChange={e => {
+                e.preventDefault();
+                this.props.didChangeShelf(book, e.target.value);
+              }}
+            >
               <option value="move" disabled>
                 Move to...
               </option>
