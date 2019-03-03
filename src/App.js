@@ -12,6 +12,10 @@ class BooksApp extends React.Component {
   };
 
   componentDidMount() {
+    this.fetchAllBooks();
+  }
+
+  fetchAllBooks = () => {
     BooksAPI.getAll()
       .then(books =>
         this.setState({
@@ -19,7 +23,14 @@ class BooksApp extends React.Component {
         })
       )
       .catch(error => console.log(error));
-  }
+  };
+
+  didChangeShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      .then(this.fetchAllBooks)
+      .catch(error => console.log(error));
+  };
+
   render() {
     return (
       <div className="app">
@@ -28,7 +39,10 @@ class BooksApp extends React.Component {
           path="/"
           render={({ history }) => (
             <div>
-              <ListBooks books={this.state.books}/>
+              <ListBooks
+                books={this.state.books}
+                didChangeShelf={this.didChangeShelf}
+              />
               <OpenSearch
                 didTapOnSearch={e => {
                   e.preventDefault();

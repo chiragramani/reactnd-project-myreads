@@ -20,9 +20,10 @@ class ListBooks extends Component {
             <BookShelf
               title="Currently Reading"
               books={currentlyReadingBooks}
+              didChangeShelf={this.props.didChangeShelf}
             />
-            <BookShelf title="Want to read" books={wantToReadBooks} />
-            <BookShelf title="Read" books={readBooks} />
+            <BookShelf title="Want to read" books={wantToReadBooks} didChangeShelf={this.props.didChangeShelf}/>
+            <BookShelf title="Read" books={readBooks} didChangeShelf={this.props.didChangeShelf}/>
           </div>
         </div>
       </div>
